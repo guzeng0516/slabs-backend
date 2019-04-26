@@ -1,12 +1,12 @@
 package com.streamlabs.slabsbackend.repo;
 
-import com.streamlabs.slabsbackend.model.User;
+import com.streamlabs.slabsbackend.model.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
-    List<User> findAll();
+public interface CustomerRepository extends JpaRepository<Customer, Integer> {
+    List<Customer> findAll();
 }
