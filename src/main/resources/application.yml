@@ -1,9 +1,9 @@
 spring:
   ## PostgreSQL
   datasource:
-    url: jdbc:postgresql://ec2-54-197-234-117.compute-1.amazonaws.com/d130hglitp0hd6
-    username: jcgzqvoypzswji
-    password: 2b2f037f9469198cae81e39f83af86c850439b85eb469930f6656799d858d561
+    url: jdbc:postgresql://ec2-23-21-136-232.compute-1.amazonaws.com/de08unv58372oo
+    username: de08unv58372oo
+    password: npdcyjlddxlojc
     ## default connection pool
     hikari:
       connectionTimeout: 20000
