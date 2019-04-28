@@ -15,6 +15,9 @@ public class Customer {
     @Column(name = "firstname")
     private String firstname;
 
+    @Column(name = "twitch_code")
+    private String twitchCode;
+
     public Integer getId() {
         return id;
     }
@@ -29,5 +32,13 @@ public class Customer {
 
     public void setFirstname(String firstname) {
         this.firstname = firstname;
+    }
+
+    public void setTwitchCode(String twitchCode) {
+        this.twitchCode = twitchCode;
+    }
+
+    public String getTwitchCode() {
+        return twitchCode;
     }
 }
