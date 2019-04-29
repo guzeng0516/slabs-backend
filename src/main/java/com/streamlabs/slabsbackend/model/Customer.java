@@ -12,7 +12,7 @@ public class Customer {
     private Integer id;
 
 
-    @Column(name = "firstName")
+    @Column(name = "first_name")
     private String firstName;
 
     @Column(name = "twitch_id_token")
