@@ -1,10 +1,10 @@
 package com.streamlabs.slabsbackend.controller;
 
-import com.streamlabs.slabsbackend.model.Customer;
 import com.streamlabs.slabsbackend.service.AuthService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 public class AuthController {
@@ -15,10 +15,10 @@ public class AuthController {
     }
 
     @GetMapping(value = "/auth/twitch")
-    public String twitchLogin(
+    public RedirectView twitchLogin(
             @RequestParam(name = "code") String code
     ) {
         authService.loginWithTwitchCode(code);
-        return "player";
+        return new RedirectView("/setting");
     }
 }

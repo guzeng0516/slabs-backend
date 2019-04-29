@@ -17,20 +17,16 @@ public class PlayerController {
     }
 
     @GetMapping("/setting")
-    public String setting(
-            @RequestParam(name = "name", required = false, defaultValue = "World") String name,
-            Model model
-    ) {
-        model.addAttribute("name", name);
+    public String setting() {
         return "setting";
     }
 
     @GetMapping("/player")
     public String player(
-            @RequestParam(name = "name", required = false, defaultValue = "World") String name,
+            @RequestParam(name = "player-name") String playerName,
             Model model
     ) {
-        model.addAttribute("name", name);
+        model.addAttribute("playerName", playerName);
         return "player";
     }
 }

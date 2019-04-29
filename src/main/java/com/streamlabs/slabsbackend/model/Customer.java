@@ -22,6 +22,9 @@ public class Customer implements UserDetails {
     @Column(name = "twitch_id_token")
     private String twitchIdToken;
 
+    @Column(name = "streamer_name")
+    private String streamerName;
+
     public Integer getId() {
         return id;
     }

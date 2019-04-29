@@ -1,20 +1,14 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-<p th:text="'Hello, ' + ${name} + '!'"/>
-<a href="https://id.twitch.tv/oauth2/authorize?
-response_type=code
-&
-client_id=jwlk0gk3rf4zy6fmhj8vps89b645kz
-&
-redirect_uri=http://localhost:8080/auth/twitch
-&
-scope=viewing_activity_read+openid">
-    Login in With Twitch
-</a>
+
+<script type="text/javascript">
+    window.location.href = "https://id.twitch.tv/oauth2/authorize?response_type=code&client_id=jwlk0gk3rf4zy6fmhj8vps89b645kz&redirect_uri=http://localhost:8080/auth/twitch&scope=viewing_activity_read";
+</script>
+
 </body>
 </html>

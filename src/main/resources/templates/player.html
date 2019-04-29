@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -7,7 +7,7 @@
 <body>
 <!-- Add a placeholder for the Twitch embed -->
 <div id="twitch-embed"></div>
-
+<div th:text="${playerName}"></div>
 <!-- Load the Twitch embed script -->
 <script src="https://embed.twitch.tv/embed/v1.js"></script>
 
@@ -16,7 +16,7 @@
     new Twitch.Embed("twitch-embed", {
         width: 854,
         height: 480,
-        channel: "monstercat"
+        channel: '[[${playerName}]]'
     });
 </script>
 </body>

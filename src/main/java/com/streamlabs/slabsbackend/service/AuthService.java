@@ -19,12 +19,12 @@ public class AuthService {
     public Customer loginWithTwitchCode(String code) {
         RestTemplate restTemplate = new RestTemplate();
         String url = "https://id.twitch.tv/oauth2/token?client_id=jwlk0gk3rf4zy6fmhj8vps89b645kz&client_secret=awsiet0w5z2n0b1l4pg84gjdprccn4&code=" + code + "&grant_type=authorization_code&redirect_uri=http://localhost:8080/auth/twitch";
-        TwitchResponseDTO twitchResponseDTO = restTemplate.postForObject(
-                url,
-                null,
-                TwitchResponseDTO.class
-        );
-        return loginWithTwitchIdToken(twitchResponseDTO.getIdToken());
+//        TwitchResponseDTO twitchResponseDTO = restTemplate.postForObject(
+//                url,
+//                null,
+//                TwitchResponseDTO.class
+//        );
+        return loginWithTwitchIdToken("abc");
     }
 
     public Customer loginWithTwitchIdToken(String twitchIdToken) {
