@@ -1,13 +1,13 @@
 package com.streamlabs.slabsbackend.model.auth;
 
 public class TwitchLoginRequest {
-    private String code;
+    private String idToken;
 
-    public String getCode() {
-        return code;
+    public String getIdToken() {
+        return idToken;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setIdToken(String idToken) {
+        this.idToken = idToken;
     }
 }

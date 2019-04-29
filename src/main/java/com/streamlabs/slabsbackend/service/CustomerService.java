@@ -14,15 +14,15 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public Customer findOrCreateByTwitchCode(String code) {
-        Optional<Customer> customerOptional = customerRepository.findByTwitchCode(code);
-        return customerOptional.orElseGet(() -> createByTwitchCode(code));
+    public Customer findOrCreateByTwitchIdToken(String code) {
+        Optional<Customer> customerOptional = customerRepository.findByTwitchIdToken(code);
+        return customerOptional.orElseGet(() -> createByTwitchIdToken(code));
     }
 
-    private Customer createByTwitchCode(String code) {
+    private Customer createByTwitchIdToken(String code) {
         Customer customer = new Customer();
-        customer.setFirstname("default first name");
-        customer.setTwitchCode(code);
+        customer.setFirstName("default first name");
+        customer.setTwitchIdToken(code);
         return customerRepository.save(customer);
     }
 }

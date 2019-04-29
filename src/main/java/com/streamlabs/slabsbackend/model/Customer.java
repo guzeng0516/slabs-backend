@@ -12,11 +12,11 @@ public class Customer {
     private Integer id;
 
 
-    @Column(name = "firstname")
-    private String firstname;
+    @Column(name = "firstName")
+    private String firstName;
 
-    @Column(name = "twitch_code")
-    private String twitchCode;
+    @Column(name = "twitch_id_token")
+    private String twitchIdToken;
 
     public Integer getId() {
         return id;
@@ -26,19 +26,19 @@ public class Customer {
         this.id = id;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public void setTwitchCode(String twitchCode) {
-        this.twitchCode = twitchCode;
+    public void setTwitchIdToken(String twitchIdToken) {
+        this.twitchIdToken = twitchIdToken;
     }
 
-    public String getTwitchCode() {
-        return twitchCode;
+    public String getTwitchIdToken() {
+        return twitchIdToken;
     }
 }
