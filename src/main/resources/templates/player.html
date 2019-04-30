@@ -9,7 +9,6 @@
 <div id="twitch-embed"></div>
 <div th:text="${playerName}"></div>
 <!-- Load the Twitch embed script -->
-<script src="https://embed.twitch.tv/embed/v1.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.4.0.min.js"
         integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
@@ -21,12 +20,15 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 
+<script src="https://embed.twitch.tv/embed/v1.js"></script>
+
+
 <!-- Create a Twitch.Embed object that will render within the "twitch-embed" root element. -->
 <script type="text/javascript">
     var heartbeatHandle;
 
-    function heartbeat(websocket) {
-        websocket.send(JSON.stringify({type: "PING"}));
+    function heartbeat() {
+        ws.send(JSON.stringify({type: "PING"}));
     }
 
     $(function () {
@@ -44,21 +46,15 @@
         ws.onopen = function (event) {
             heartbeat(ws); //set up ping/pong loop
             heartbeatHandle = setInterval(heartbeat, 24000);
-            console.log(localStorage.getItem('accessToken'));
-            var text = "";
-            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            for (var i = 0; i < length; i++) {
-                text += possible.charAt(Math.floor(Math.random() * 15));
-            }
             var msg = {
                 type: "LISTEN",
-                nonce: text,
+                nonce: nonce,
                 data: {
                     topics: ["channel-commerce-events-v1." + '27446517'],
                     auth_token: localStorage.getItem('accessToken')
                 }
             };
-            //PlinkoEngine.spawnBit(1, "hi");
+
             ws.send(JSON.stringify(msg));
         };
 

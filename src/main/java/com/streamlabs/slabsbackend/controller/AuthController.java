@@ -15,7 +15,9 @@ public class AuthController {
     }
 
     @GetMapping(value = "/auth/twitch")
-    public String twitchLogin() {
+    public String twitchLogin(
+    ) {
+
         return "/auth/twitch";
     }
 }
