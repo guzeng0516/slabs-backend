@@ -17,7 +17,9 @@ public class AuthRestController {
     }
 
     @PostMapping(value = "/auth/twitch")
-    public Customer twitchLogin(@RequestBody TwitchLoginRequest loginRequest) {
+    public Customer twitchLogin(
+            @RequestBody TwitchLoginRequest loginRequest
+    ) {
         return authService.loginWithTwitchIdToken(loginRequest.getIdToken());
     }
 }

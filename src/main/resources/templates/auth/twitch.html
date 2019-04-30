@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+
+Logging in
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+
+<!-- Create a Twitch.Embed object that will render within the "twitch-embed" root element. -->
+<script type="text/javascript">
+    var urlFragment = window.location.hash.substr(1);
+
+    var accessTokenKVPair = urlFragment.split('&')[0];
+    var accessToken = accessTokenKVPair.split('=')[1];
+
+    var idTokenKVPair = urlFragment.split('&')[1];
+    var idToken = idTokenKVPair.split('=')[1];
+
+    console.log(accessToken);
+    console.log(idToken);
+
+    var data = {
+        "idToken": idToken
+    };
+
+    $.ajax({
+        type: "POST",
+        url: '/auth/twitch',
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(data),
+        success: function () {
+            window.location.href = "/setting";
+        }
+    });
+</script>
+</body>
+</html>

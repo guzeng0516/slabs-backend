@@ -15,10 +15,7 @@ public class AuthController {
     }
 
     @GetMapping(value = "/auth/twitch")
-    public RedirectView twitchLogin(
-            @RequestParam(name = "code") String code
-    ) {
-        authService.loginWithTwitchCode(code);
-        return new RedirectView("/setting");
+    public String twitchLogin() {
+        return "/auth/twitch";
     }
 }
