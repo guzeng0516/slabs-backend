@@ -33,7 +33,7 @@
     var steamerId;
     var events = [];
 
-    function renderEvent() {
+    function renderEventList() {
         $(".list-group").innerHTML = "";
 
         events.forEach(function (event) {
@@ -58,7 +58,7 @@
         $.ajax({
             type: "GET",
             headers: {
-                "Accept": "pplication/vnd.twitchtv.v5+json",
+                "Accept": "application/vnd.twitchtv.v5+json",
                 "Client-ID": "jwlk0gk3rf4zy6fmhj8vps89b645kz"
             },
             url: 'https://api.twitch.tv/kraken/users?login=[[${playerName}]]',
@@ -74,17 +74,34 @@
                     success: function (data) {
                         console.log(data.data);
                         events = data.data;
-                        renderEvent();
+                        renderEventList();
                     }
                 });
+                $.ajax({
+                    type: "POST",
+                    headers: {"Client-ID": "jwlk0gk3rf4zy6fmhj8vps89b645kz"},
+                    url: "https://api.twitch.tv/helix/webhooks/hub",
+                    data: {
+                        "hub.callback": "https://evening-spire-26420.herokuapp.com/webhook/twitch",
+                        "hub.mode": "subscribe",
+                        "hub.topic": "https://api.twitch.tv/helix/users/follows?first=1&to_id=" + steamerId
+                    },
+                    success:
 
+                        function (data) {
+                            console.log(data.data);
+                            events = data.data;
+                            renderEventList();
+                        }
+                });
 
-                var channel = pusher.subscribe('https://api.twitch.tv/helix/users/follows?first=1&to_id=' + steamerId);
+                var channel = pusher.subscribe(steamerId);
                 channel.bind('steamer-event', function (data) {
                     events.push(data);
                 });
             }
-        });
+        })
+        ;
     });
 </script>
 </body>
