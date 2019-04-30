@@ -41,7 +41,7 @@ public class PlayerController {
             @RequestParam(name = "player-name") String playerName,
             Model model
     ) {
-        authService.getTwitchClientAccessToken();
+        String clientAccessToken = authService.getTwitchClientAccessToken();
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof Customer) {
@@ -50,6 +50,7 @@ public class PlayerController {
             customerService.setStreamerName(customer, playerName);
         }
         model.addAttribute("playerName", playerName);
+        model.addAttribute("clientAccessToken", clientAccessToken);
         return "player";
     }
 }

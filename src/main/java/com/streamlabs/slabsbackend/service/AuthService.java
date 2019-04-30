@@ -25,7 +25,9 @@ public class AuthService {
                         "&" +
                         "client_secret=slzi0veznbj565s5kthuvn1qngm270" +
                         "&" +
-                        "grant_type=client_credentials", null, TwitchClientResponse.class);
+                        "grant_type=client_credentials" +
+                        "&" +
+                        "scope=channel_read", null, TwitchClientResponse.class);
         System.out.println(response.getAccessToken());
         return response.getAccessToken();
 
