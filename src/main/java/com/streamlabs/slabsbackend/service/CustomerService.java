@@ -25,4 +25,14 @@ public class CustomerService {
         customer.setTwitchIdToken(code);
         return customerRepository.save(customer);
     }
+
+    public Customer findById(Integer id) {
+        return customerRepository.findById(id).orElse(null);
+    }
+
+    public void setStreamerName(Customer customer, String playerName) {
+        customer.setStreamerName(playerName);
+        // listen stream events here
+        customerRepository.save(customer);
+    }
 }

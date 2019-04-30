@@ -10,10 +10,12 @@
 <body>
 
 <div class="input-group mb-3">
-    <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username"
-           aria-describedby="button-addon2">
+    <input type="text" class="form-control" placeholder="Enter Your Favourite Streamer Name"
+           aria-label="Recipient's username"
+           aria-describedby="button-addon2"
+           id="streamer-name-input">
     <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
+        <button class="btn btn-outline-secondary" type="button" id="stream-button">Stream</button>
     </div>
 </div>
 
@@ -27,5 +29,14 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+<!-- Create a Twitch.Embed object that will render within the "twitch-embed" root element. -->
+<script type="text/javascript">
+    $("#stream-button")
+        .click(function () {
+            var streamerName = $("#streamer-name-input").val();
+            window.location.href = "player?player-name=" + streamerName;
+        });
+</script>
+
 </body>
 </html>
