@@ -25,26 +25,18 @@
 <script type="text/javascript">
     var heartbeatHandle;
 
-    function heartbeat(ws) {
-        ws.send(JSON.stringify({type: "PING"}));
-    }
-
-    // Source: https://www.thepolyglotdeveloper.com/2015/03/create-a-random-nonce-string-using-javascript/
-    function nonce(length) {
-        var text = "";
-        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        for (var i = 0; i < length; i++) {
-            text += possible.charAt(Math.floor(Math.random() * possible.length));
-        }
-        return text;
+    function heartbeat(websocket) {
+        websocket.send(JSON.stringify({type: "PING"}));
     }
 
     $(function () {
-        new Twitch.Embed("twitch-embed", {
+        var embed = new Twitch.Embed("twitch-embed", {
             width: 854,
             height: 480,
             channel: '[[${playerName}]]'
         });
+
+        console.log(embed);
 
         ws = new WebSocket('wss://pubsub-edge.twitch.tv');
         var nonce = "wfyuplgjwyu5gwdhedhrersduywjg32";
@@ -53,11 +45,16 @@
             heartbeat(ws); //set up ping/pong loop
             heartbeatHandle = setInterval(heartbeat, 24000);
             console.log(localStorage.getItem('accessToken'));
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            for (var i = 0; i < length; i++) {
+                text += possible.charAt(Math.floor(Math.random() * 15));
+            }
             var msg = {
                 type: "LISTEN",
-                nonce: nonce(15),
+                nonce: text,
                 data: {
-                    topics: ["channel-commerce-events-v1." + '44322889'],
+                    topics: ["channel-commerce-events-v1." + '27446517'],
                     auth_token: localStorage.getItem('accessToken')
                 }
             };
