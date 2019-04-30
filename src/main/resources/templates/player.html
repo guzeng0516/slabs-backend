@@ -11,12 +11,68 @@
 <!-- Load the Twitch embed script -->
 <script src="https://embed.twitch.tv/embed/v1.js"></script>
 
+<script src="https://code.jquery.com/jquery-3.4.0.min.js"
+        integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
 <!-- Create a Twitch.Embed object that will render within the "twitch-embed" root element. -->
 <script type="text/javascript">
-    new Twitch.Embed("twitch-embed", {
-        width: 854,
-        height: 480,
-        channel: '[[${playerName}]]'
+    var heartbeatHandle;
+
+    function heartbeat(ws) {
+        ws.send(JSON.stringify({type: "PING"}));
+    }
+
+    // Source: https://www.thepolyglotdeveloper.com/2015/03/create-a-random-nonce-string-using-javascript/
+    function nonce(length) {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for (var i = 0; i < length; i++) {
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+        return text;
+    }
+
+    $(function () {
+        new Twitch.Embed("twitch-embed", {
+            width: 854,
+            height: 480,
+            channel: '[[${playerName}]]'
+        });
+
+        ws = new WebSocket('wss://pubsub-edge.twitch.tv');
+        var nonce = "wfyuplgjwyu5gwdhedhrersduywjg32";
+
+        ws.onopen = function (event) {
+            heartbeat(ws); //set up ping/pong loop
+            heartbeatHandle = setInterval(heartbeat, 24000);
+            console.log(localStorage.getItem('accessToken'));
+            var msg = {
+                type: "LISTEN",
+                nonce: nonce(15),
+                data: {
+                    topics: ["channel-commerce-events-v1." + '44322889'],
+                    auth_token: localStorage.getItem('accessToken')
+                }
+            };
+            //PlinkoEngine.spawnBit(1, "hi");
+            ws.send(JSON.stringify(msg));
+        };
+
+        ws.onmessage = function (event) {
+            console.log(event);
+        };
+
+        ws.onclose = function () {
+            $('.ws-output').append('INFO: Socket Closed\n');
+            clearInterval(heartbeatHandle);
+        };
     });
 </script>
 </body>
