@@ -3,38 +3,53 @@
 <head>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
 <!-- Add a placeholder for the Twitch embed -->
 <div id="twitch-embed"></div>
-<div th:text="${playerName}"></div>
+<ul class="list-group">
+</ul>
 <!-- Load the Twitch embed script -->
 
 <script src="https://code.jquery.com/jquery-3.4.0.min.js"
         integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
         crossorigin="anonymous"></script>
-<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
-<script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
 
+
+<script src="https://js.pusher.com/4.4/pusher.min.js"></script>
 <script src="https://embed.twitch.tv/embed/v1.js"></script>
 
 
 <!-- Create a Twitch.Embed object that will render within the "twitch-embed" root element. -->
 <script type="text/javascript">
     var steamerId;
-    var heartbeatHandle;
+    var events = [];
 
+    function renderEvent() {
+        $(".list-group").innerHTML = "";
 
-    function heartbeat() {
-        ws.send(JSON.stringify({type: "PING"}));
+        events.forEach(function (event) {
+            console.log(event);
+            $(".list-group").append("<li class=\"list-group-item\">Follow Event: " + event.from_name + " followed streamer</li>");
+        })
     }
 
     $(function () {
-        var embed = new Twitch.Embed("twitch-embed", {
+
+        var pusher = new Pusher('5f25988ca7ae72cad432', {
+            cluster: 'mt1',
+            forceTLS: true
+        });
+
+        new Twitch.Embed("twitch-embed", {
             width: 854,
             height: 480,
             channel: '[[${playerName}]]'
@@ -49,36 +64,25 @@
             url: 'https://api.twitch.tv/kraken/users?login=[[${playerName}]]',
             contentType: "application/json; charset=utf-8",
             success: function (data) {
+                console.log('ti is this');
+
                 steamerId = data.users[0]._id;
+                $.ajax({
+                    type: "GET",
+                    headers: {"Client-ID": "jwlk0gk3rf4zy6fmhj8vps89b645kz"},
+                    url: "https://api.twitch.tv/helix/users/follows?to_id=" + steamerId + "&first=10",
+                    success: function (data) {
+                        console.log(data.data);
+                        events = data.data;
+                        renderEvent();
+                    }
+                });
 
-                ws = new WebSocket('wss://pubsub-edge.twitch.tv');
-                var nonce = "44h1k13746815ab1r2";
 
-                ws.onopen = function (event) {
-                    heartbeat(ws); //set up ping/pong loop
-                    heartbeatHandle = setInterval(heartbeat, 240000);
-                    var msg = {
-                        type: "LISTEN",
-                        nonce: nonce,
-                        data: {
-                            topics: [
-                                "channel-bits-events-v2." + steamerId
-                            ],
-                            auth_token: localStorage.getItem('accessToken')
-                        }
-                    };
-
-                    ws.send(JSON.stringify(msg));
-                };
-
-                ws.onmessage = function (event) {
-                    console.log(event);
-                };
-
-                ws.onclose = function () {
-                    $('.ws-output').append('INFO: Socket Closed\n');
-                    clearInterval(heartbeatHandle);
-                };
+                var channel = pusher.subscribe('https://api.twitch.tv/helix/users/follows?first=1&to_id=' + steamerId);
+                channel.bind('steamer-event', function (data) {
+                    events.push(data);
+                });
             }
         });
     });
