@@ -6,7 +6,9 @@ import com.streamlabs.slabsbackend.service.FollowEventService;
 import com.streamlabs.slabsbackend.service.PusherService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 public class TwitchWebhookController {
     private PusherService pusherService;
     private FollowEventService followEventService;
