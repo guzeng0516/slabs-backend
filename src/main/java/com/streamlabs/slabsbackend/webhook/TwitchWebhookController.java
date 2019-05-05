@@ -23,7 +23,7 @@ public class TwitchWebhookController {
     public String followEventWebhookGet(
             @RequestParam("hub.challenge") String hubChallenge
     ) {
-        System.out.println("returning change");
+        System.out.println("returning change: " + hubChallenge);
         return hubChallenge;
     }
 
