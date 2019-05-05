@@ -1,18 +1,10 @@
 package com.streamlabs.slabsbackend.webhook;
 
-import com.pusher.rest.Pusher;
 import com.streamlabs.slabsbackend.model.FollowEvent;
 import com.streamlabs.slabsbackend.model.FollowEventResponse;
 import com.streamlabs.slabsbackend.service.FollowEventService;
 import com.streamlabs.slabsbackend.service.PusherService;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class TwitchWebhookController {
@@ -28,33 +20,21 @@ public class TwitchWebhookController {
     }
 
     @GetMapping(value = "/webhook/twitch/follow-events")
-    public void followEventWebhook(
-            @RequestParam("hub.topic") String hubTopic
+    public String followEventWebhookGet(
+            @RequestParam("hub.challenge") String hubChallenge
     ) {
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Client-ID", "jwlk0gk3rf4zy6fmhj8vps89b645kz");
+        System.out.println("returning change");
+        return hubChallenge;
+    }
 
-        HttpEntity entity = new HttpEntity(headers);
-
-        ResponseEntity<FollowEventResponse> response = restTemplate.exchange(
-                hubTopic,
-                HttpMethod.GET,
-                entity,
-                FollowEventResponse.class
-        );
-
-        FollowEvent tmpFollowEvent = response.getBody().getData().get(0);
+    @PostMapping(value = "/webhook/twitch/follow-events")
+    public void followEventWebhook(
+            @RequestBody() FollowEventResponse request
+    ) {
+        System.out.println("webhook triggered");
+        FollowEvent tmpFollowEvent = request.getData().get(0);
 
         FollowEvent followEvent = followEventService.save(tmpFollowEvent);
         pusherService.PushFollowEvent(followEvent);
-    }
-
-    public PusherService getPusherService() {
-        return pusherService;
-    }
-
-    public void setPusherService(PusherService pusherService) {
-        this.pusherService = pusherService;
     }
 }
