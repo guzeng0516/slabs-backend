@@ -37,7 +37,12 @@
         $(".list-group").innerHTML = "";
 
         events.forEach(function (event) {
-            $(".list-group").append("<li class=\"list-group-item\">Follow Event: " + event.from_name + " followed streamer</li>");
+            if (event.from_name) {
+                $(".list-group").append("<li class=\"list-group-item\">Follow Event: " + event.from_name + " followed streamer</li>");
+            }
+            if (event.fromName) {
+                $(".list-group").append("<li class=\"list-group-item\">Follow Event: " + event.fromName + " followed streamer</li>");
+            }
         })
     }
 
@@ -87,15 +92,14 @@
                     },
                     success: function (data) {
                         console.log(data.data);
-                        // events = data.data;
-                        // renderEventList();
                     }
                 });
 
                 var channel = pusher.subscribe("twitch-channel");
                 channel.bind('follow-event',
-                    function (data) {
-                        console.log(data);
+                    function (event) {
+                        console.log(event);
+                        events.unshift(event);
                     });
             }
         })
