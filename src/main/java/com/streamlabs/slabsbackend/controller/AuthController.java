@@ -18,6 +18,6 @@ public class AuthController {
     public String twitchLogin(
     ) {
 
-        return "/twitch";
+        return "twitch";
     }
 }
