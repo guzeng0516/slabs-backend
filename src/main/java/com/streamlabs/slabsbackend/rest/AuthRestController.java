@@ -3,7 +3,6 @@ package com.streamlabs.slabsbackend.rest;
 import com.streamlabs.slabsbackend.model.Customer;
 import com.streamlabs.slabsbackend.model.auth.TwitchLoginRequest;
 import com.streamlabs.slabsbackend.service.AuthService;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

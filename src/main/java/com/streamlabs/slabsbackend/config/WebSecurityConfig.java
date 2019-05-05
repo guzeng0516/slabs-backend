@@ -10,8 +10,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
-
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -22,7 +20,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/auth/twitch").permitAll()
-                .antMatchers("/", "/home", "/auth/twitch").permitAll()
+                .antMatchers("/", "/home", "/auth/twitch", "/webhook/twitch/follow-events").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
