@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html>
 <head>
     <title>Getting Started: Serving Web Content</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -87,7 +87,6 @@
                         "hub.topic": "https://api.twitch.tv/helix/users/follows?first=1&to_id=" + steamerId
                     },
                     success:
-
                         function (data) {
                             console.log(data.data);
                             events = data.data;
@@ -95,10 +94,11 @@
                         }
                 });
 
-                var channel = pusher.subscribe(steamerId);
-                channel.bind('steamer-event', function (data) {
-                    events.push(data);
-                });
+                var channel = pusher.subscribe("twitch-channel");
+                channel.bind('follow-event',
+                    function (data) {
+                        console.log(data);
+                    });
             }
         })
         ;
