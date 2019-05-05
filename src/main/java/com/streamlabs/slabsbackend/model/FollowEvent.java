@@ -2,11 +2,28 @@ package com.streamlabs.slabsbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "follow_event")
 public class FollowEvent {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(name = "from_id")
     private int fromID;
+
+    @Column(name = "from_name")
     private String fromName;
+
+    @Column(name = "to_id")
     private int toID;
+
+    @Column(name = "to_name")
     private String toName;
+
+    @Column(name = "followed_at")
     private String followedAt;
 
     @JsonProperty("from_id")
@@ -52,5 +69,13 @@ public class FollowEvent {
 
     public void setFollowedAt(String followedAt) {
         this.followedAt = followedAt;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
