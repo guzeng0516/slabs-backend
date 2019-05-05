@@ -12,7 +12,7 @@ public class PusherService {
 
         pusher.trigger(
                 "twitch-channel",
-                "follow-event",
+                String.valueOf(followEvent.getToID()),
                 followEvent
         );
     }

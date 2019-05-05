@@ -96,10 +96,11 @@
                 });
 
                 var channel = pusher.subscribe("twitch-channel");
-                channel.bind('follow-event',
+                channel.bind(steamerId,
                     function (event) {
                         console.log(event);
                         events.unshift(event);
+                        renderEventList();
                     });
             }
         })
