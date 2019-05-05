@@ -37,7 +37,6 @@
         $(".list-group").innerHTML = "";
 
         events.forEach(function (event) {
-            console.log(event);
             $(".list-group").append("<li class=\"list-group-item\">Follow Event: " + event.from_name + " followed streamer</li>");
         })
     }
@@ -72,7 +71,6 @@
                     headers: {"Client-ID": "jwlk0gk3rf4zy6fmhj8vps89b645kz"},
                     url: "https://api.twitch.tv/helix/users/follows?to_id=" + steamerId + "&first=10",
                     success: function (data) {
-                        console.log(data.data);
                         events = data.data;
                         renderEventList();
                     }
@@ -86,12 +84,11 @@
                         "hub.mode": "subscribe",
                         "hub.topic": "https://api.twitch.tv/helix/users/follows?first=1&to_id=" + steamerId
                     },
-                    success:
-                        function (data) {
-                            console.log(data.data);
-                            events = data.data;
-                            renderEventList();
-                        }
+                    success: function (data) {
+                        console.log(data.data);
+                        // events = data.data;
+                        // renderEventList();
+                    }
                 });
 
                 var channel = pusher.subscribe("twitch-channel");
