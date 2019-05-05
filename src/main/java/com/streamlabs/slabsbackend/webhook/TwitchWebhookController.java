@@ -1,12 +1,12 @@
 package com.streamlabs.slabsbackend.webhook;
 
 import com.streamlabs.slabsbackend.model.FollowEvent;
-import com.streamlabs.slabsbackend.model.FollowEventWebHookRequest;
 import com.streamlabs.slabsbackend.service.FollowEventService;
 import com.streamlabs.slabsbackend.service.PusherService;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class TwitchWebhookController {
@@ -18,12 +18,16 @@ public class TwitchWebhookController {
     }
 
     @GetMapping(value = "/webhook/twitch/follow-events")
-    public void twitchLogin(
-            @RequestBody FollowEventWebHookRequest request
+    public void followEventWebhook(
+            @PathVariable("hub.topic") String hubTopic
     ) {
-        FollowEvent requestData = request.getData();
-        FollowEvent followEvent = followEventService.save(requestData);
-        pusherService.PushFollowEvent(requestData);
+        RestTemplate restTemplate = new RestTemplate();
+        FollowEvent followEvent = restTemplate.getForObject(
+                hubTopic,
+                FollowEvent.class
+        );
+        followEventService.save(followEvent);
+        pusherService.PushFollowEvent(followEvent);
     }
 
     public PusherService getPusherService() {
