@@ -82,7 +82,8 @@
                     data: {
                         "hub.callback": "https://evening-spire-26420.herokuapp.com/webhook/twitch/follow-events",
                         "hub.mode": "subscribe",
-                        "hub.topic": "https://api.twitch.tv/helix/users/follows?first=1&to_id=" + steamerId
+                        "hub.topic": "https://api.twitch.tv/helix/users/follows?first=1&to_id=" + steamerId,
+                        "hub.lease_seconds": 6000
                     },
                     success: function (data) {
                         console.log(data.data);
